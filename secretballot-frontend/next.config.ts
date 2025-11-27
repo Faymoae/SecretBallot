@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
         net: false,
         tls: false,
         crypto: false,
+        globalThis: require.resolve('globalthis/auto'), // Use polyfill
       };
       
       // Define global for browser
@@ -24,6 +25,12 @@ const nextConfig: NextConfig = {
           global: 'globalThis',
         })
       );
+    } else {
+      // For server-side, also use polyfill if needed
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        globalThis: require.resolve('globalthis/auto'),
+      };
     }
     
     return config;
